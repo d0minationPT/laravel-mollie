@@ -152,4 +152,40 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
             'avatar' => null,
         ]);
     }
+    
+    /**
+     * Get the refresh token for the given code.
+     *
+     * @param string $code
+     *
+     * @return string
+     */
+    public function getRefreshTokenResponse($code)
+    {
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            'headers' => ['Accept' => 'application/json'],
+            'form_params' => $this->getRefreshTokenFields($code),
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+    
+    /**
+     * Get the POST fields for the refresh token request.
+     *
+     * @param string $code
+     *
+     * @return array
+     */
+    public function getRefreshTokenFields($code)
+    {
+        
+        return [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'code' => $code,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $code,
+        ];
+    }
 }
