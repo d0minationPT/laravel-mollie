@@ -178,7 +178,6 @@ class MollieConnectProvider extends AbstractProvider implements ProviderInterfac
      */
     public function getRefreshTokenFields($code)
     {
-        
         return [
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
